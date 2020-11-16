@@ -1,0 +1,21 @@
+{
+"message": "Please make sure the PHP Redis extension is installed and enabled.",
+"exception": "LogicException",
+"file": "/www/app/vendor/laravel/framework/src/Illuminate/Redis/Connectors/PhpRedisConnector.php",
+"line": 76,
+"trace": [
+    {"file": "/www/app/vendor/laravel/framework/src/Illuminate/Support/helpers.php",
+    "line": 433,"function": "Illuminate\\\\Redis\\\\Connectors\\\\{closure}",
+    "class": "Illuminate\\\\Redis\\\\Connectors\\\\PhpRedisConnector","type": "->"    },
+     {"file":
+        "/www/app/vendor/laravel/framework/src/Illuminate/Redis/Connectors/PhpRedisConnector.php",
+        "line": 104,
+        "function": "tap"
+     },
+     {
+        "file": "/www/app/vendor/laravel/framework/src/Illuminate/Redis/Connectors/PhpRedisConnector.php",
+        "line": 27,
+        "function": "createClient",
+        "class": "Illuminate\\\\Redis\\\\Connectors\\\\PhpRedisConnect…"
+    }
+}
