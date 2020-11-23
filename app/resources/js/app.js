@@ -46,7 +46,6 @@ const app = new Vue({
     el: '#app',
 
 });
-console.log(1);
 $('.owl-carousel').owlCarousel({
     items: 1,
     loop: false,

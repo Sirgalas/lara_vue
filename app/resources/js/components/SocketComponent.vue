@@ -43,7 +43,9 @@
             }
         },
         mounted() {
-            /*socket.on('chart-channel:\\App\\Events\\ChartEvent',function (data) {
+            /*
+             let socket=io('http://localhost:8205');
+            socket.on('chart-channel:\\App\\Events\\ChartEvent',function (data) {
                 this.data=data.result;
                 console.log(data)
             }.bind(this));*/
