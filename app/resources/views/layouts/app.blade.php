@@ -6,30 +6,29 @@
     <title>Laravel</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     <!-- Styles -->
 </head>
 <body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-                <a href="{{ url('/home') }}">Home</a>
-            @else
-                <a href="{{ route('login') }}">Login</a>
+    <div class="flex-center position-ref full-height">
+        @if (Route::has('login'))
+            <div class="top-right links">
+                @auth
+                    <a href="{{ url('/home') }}">Home</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}">Register</a>
-                @endif
-            @endauth
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}">Register</a>
+                    @endif
+                @endauth
+            </div>
+        @endif
+        <div class="content" id="app">
+            @yield('content')
         </div>
-    @endif
-    <div class="content" id="app">
-        @yield('content')
     </div>
-<script src="/js/app.js"></script>
-<script src="/js/script.js"></script>
-
+    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

@@ -26,7 +26,6 @@
             update:function () {
                this.is_refresh=true
                axios.get('start/data-chart').then((response)=>{
-                   console.log(response.data);
                    this.data=response.data;
                });
             }

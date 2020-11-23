@@ -1,6 +1,8 @@
 window._ = require('lodash');
 window.Popper= require('popper.js').default;
 window.io=require('socket.io-client');
+window.VueSocketIO= require('vue-socket.io');
+window.SocketInstance = io('http://localhost:8205');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -8,13 +10,15 @@ window.io=require('socket.io-client');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-try{
-    window.$=window.JQuery=require('jquery');
+try {
+    window.$ = window.jQuery = require('jquery');
+    require("jquery-easing")
     require('bootstrap');
-    require('owl.carousel')
-}catch (e){
+    require('owl.carousel');
+} catch (e) {}
 
-}
+
+
 
 window.axios = require('axios');
 

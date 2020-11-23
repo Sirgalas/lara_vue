@@ -20,18 +20,37 @@
         },
        data:function(){
            return {
+               isConnected: false,
                data:[],
                realtime:false,
                label:'',
                sale:500
            }
        },
-        mounted() {
-            let socket=io('http://localhost:8205');
-            socket.on('chart-channel:\\App\\Events\\ChartEvent',function (data) {
+        sockets: {
+            connect() {
+                this.isConnected = true;
+            },
 
+            disconnect() {
+                this.isConnected = false;
+            },
+
+            // Fired when the server sends something on the "messageChannel" channel.
+            messageChannel(data) {
+                console.log(data);
+                this.data=data;
+            }
+        },
+        mounted() {
+            /*socket.on('chart-channel:\\App\\Events\\ChartEvent',function (data) {
                 this.data=data.result;
-            }.bind(this));
+                console.log(data)
+            }.bind(this));*/
+            this.$socket.emit('chart-channel:\\App\\Events\\ChartEvent',function (data) {
+                this.data=data.result;
+                console.log(data)
+            }.bind(this))
             this.update()
         },
         methods:{
@@ -52,6 +71,10 @@
                     }
                 }).then((response)=>{
                     this.data=response.data;
+                    this.$socket.emit('chart-channel:\\App\\Events\\ChartEvent',function (data) {
+                        this.data=data.result;
+                        console.log(data)
+                    }.bind(this))
                 });
             }
         }

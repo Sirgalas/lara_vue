@@ -72,7 +72,7 @@ class StartController extends Controller
     public function newEvent(Request $request)
     {
         $result= [
-            'labels' => ['март','апрель','май','июнь'],
+            'labels' => ['march','april','may','june'],
             'datasets' => [
                 [
                     'label'=>'Sales',
@@ -82,11 +82,11 @@ class StartController extends Controller
             ]
         ];
         if($request->has('label')){
+
             $result['labels'][]=$request->input('label');
             $result['datasets'][0]['data'][]=(int)$request->input('sale');
             if($request->has('realtime')){
                 if(filter_var($request->input('realtime'),FILTER_VALIDATE_BOOLEAN)){
-                    dd('stop');
                     event(new ChartEvent($result));
                 }
             }

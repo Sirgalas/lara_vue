@@ -109,9 +109,3 @@
         </div>
     </div>
 @endsection
-<script>
-    import ChartComponent from "../js/components/ChartComponent";
-    export default {
-        components: {ChartComponent}
-    }
-</script>
