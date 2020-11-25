@@ -2359,28 +2359,20 @@ __webpack_require__.r(__webpack_exports__);
     disconnect: function disconnect() {
       this.isConnected = false;
     },
-    // Fired when the server sends something on the "messageChannel" channel.
+    'chart-channel': function chartChannel(data) {
+      this.data = data.result;
+    },
     messageChannel: function messageChannel(data) {
-      console.log(data);
       this.data = data;
     }
   },
   mounted: function mounted() {
-    /*socket.on('chart-channel:\\App\\Events\\ChartEvent',function (data) {
-        this.data=data.result;
-        console.log(data)
-    }.bind(this));*/
-    this.$socket.emit('chart-channel:\\App\\Events\\ChartEvent', function (data) {
-      this.data = data.result;
-      console.log(data);
-    }.bind(this));
     this.update();
   },
   methods: {
     update: function update() {
       var _this = this;
 
-      //this.is_refresh=true
       axios.get('start/socket-chart').then(function (response) {
         _this.data = response.data;
       });
@@ -2398,11 +2390,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this2.data = response.data;
-
-        _this2.$socket.emit('chart-channel:\\App\\Events\\ChartEvent', function (data) {
-          this.data = data.result;
-          console.log(data);
-        }.bind(_this2));
       });
     }
   }
@@ -102311,7 +102298,6 @@ Vue.use(new VueSocketIO({
 var app = new Vue({
   el: '#app'
 });
-console.log(1);
 $('.owl-carousel').owlCarousel({
   items: 1,
   loop: false,

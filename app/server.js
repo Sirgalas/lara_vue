@@ -18,7 +18,7 @@ redis.subscribe('chart-channel',function (err, count) {
 
 redis.on('message', (channel, message) => {
     message=JSON.parse(message);
-    io.emit(channel+ ":"+ message.event, message.data);
+    io.emit(channel, message.data);
 });
 http.listen(3000, function() {
     console.log('listening on *:3000')

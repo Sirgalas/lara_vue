@@ -35,29 +35,19 @@
             disconnect() {
                 this.isConnected = false;
             },
+            'chart-channel'(data){
+                this.data=data.result
+            },
 
-            // Fired when the server sends something on the "messageChannel" channel.
             messageChannel(data) {
-                console.log(data);
                 this.data=data;
             }
         },
         mounted() {
-            /*
-             let socket=io('http://localhost:8205');
-            socket.on('chart-channel:\\App\\Events\\ChartEvent',function (data) {
-                this.data=data.result;
-                console.log(data)
-            }.bind(this));*/
-            this.$socket.emit('chart-channel:\\App\\Events\\ChartEvent',function (data) {
-                this.data=data.result;
-                console.log(data)
-            }.bind(this))
             this.update()
         },
         methods:{
             update:function () {
-               //this.is_refresh=true
                axios.get('start/socket-chart').then((response)=>{
                    this.data=response.data;
                });
@@ -73,10 +63,6 @@
                     }
                 }).then((response)=>{
                     this.data=response.data;
-                    this.$socket.emit('chart-channel:\\App\\Events\\ChartEvent',function (data) {
-                        this.data=data.result;
-                        console.log(data)
-                    }.bind(this))
                 });
             }
         }
