@@ -14,10 +14,17 @@ redis.subscribe('chart-channel',function (err, count) {
     }
     console.log(count);
 });
+redis.subscribe('chat-message',function (err, count) {
+    if(err){
+        console.log(err);
+    }
+    console.log(count);
+});
 
 
 redis.on('message', (channel, message) => {
     message=JSON.parse(message);
+    console.log(channel);
     io.emit(channel, message.data);
 });
 http.listen(3000, function() {

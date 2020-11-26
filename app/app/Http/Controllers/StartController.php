@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewMessage;
+use App\Events\Message;
 use App\Http\Requests\SocketChartRequest;
 use \App\Events\ChartEvent;
 use Illuminate\Http\Request;
@@ -69,7 +69,7 @@ class StartController extends Controller
         ];
     }
 
-    public function newEvent(Request $request)
+    public function newEvent(SocketChartRequest $request)
     {
         $result= [
             'labels' => ['march','april','may','june'],
@@ -81,12 +81,12 @@ class StartController extends Controller
                 ],
             ]
         ];
-        if($request->has('label')){
+        if(!empty($request->label)){
 
             $result['labels'][]=$request->input('label');
             $result['datasets'][0]['data'][]=(int)$request->input('sale');
-            if($request->has('realtime')){
-                if(filter_var($request->input('realtime'),FILTER_VALIDATE_BOOLEAN)){
+            if($request->realtime){
+                if(filter_var($request->realtime,FILTER_VALIDATE_BOOLEAN)){
                     event(new ChartEvent($result));
                 }
             }
@@ -96,6 +96,9 @@ class StartController extends Controller
 
     public function chat(Request $request)
     {
-        event(new NewMessage($request->input('message')));
+        $result['message']=[];
+        event(new Message($request->input('message')));
+        $result['message']=$request->input('message');
+        return $result;
     }
 }

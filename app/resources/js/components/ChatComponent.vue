@@ -6,7 +6,7 @@
                     <textarea rows="6" readonly="" class="form-control">{{dataMessage.join('\n')}}</textarea>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Enter placeholder" v-model="message">
+                    <input type="text" class="form-control" placeholder="Enter message" v-model="message">
                 </div>
                 <div class="input-group ">
                     <button @click="sendMessage" class="btn btn-default" type="button">Send</button>
@@ -25,16 +25,30 @@
                message:"",
            }
        },
+        sockets: {
+            connect() {
+                this.isConnected = true;
+            },
+
+            disconnect() {
+                this.isConnected = false;
+            },
+            'chat-message'(data){
+                console.log(data)
+                this.dataMessage.push(data.message)
+            },
+            messageChannel(data) {
+                this.data=data;
+            }
+        },
         mounted() {
-            let socket=io('http://localhost:8205');
-            socket.on('chat-message:\\App\\Events\\NewMessage',function (data) {
-                console.log(data);
-                this.dataMessage.push(data.message);
-            }.bind(this));
+            this.$socket.on('chat-message',(data)=>{
+                console.log(data)
+                this.dataMessage.push(data);
+            });
         },
         methods:{
             sendMessage:function () {
-                console.log(this.message);
                 axios({
                     method:"get",
                     url:'start/chat',
@@ -42,7 +56,13 @@
                         message:this.message
                     }
                 }).then((response)=>{
-                    console.log(response)
+                    console.log(response.data);
+                    /*this.dataMessage.push(response.data);*/
+                    this.$socket.emit('chat-message',response.data);
+                    /*this.$socket.emit('chat-message',(data)=>{
+                        console.log(data)
+                        this.dataMessage=data.result;
+                    });*/
                     this.message="";
                 });
             }

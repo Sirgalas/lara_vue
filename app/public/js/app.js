@@ -2166,18 +2166,34 @@ __webpack_require__.r(__webpack_exports__);
       message: ""
     };
   },
-  mounted: function mounted() {
-    var socket = io('http://localhost:8205');
-    socket.on('chat-message:\\App\\Events\\NewMessage', function (data) {
+  sockets: {
+    connect: function connect() {
+      this.isConnected = true;
+    },
+    disconnect: function disconnect() {
+      this.isConnected = false;
+    },
+    'chat-message': function chatMessage(data) {
       console.log(data);
       this.dataMessage.push(data.message);
-    }.bind(this));
+    },
+    messageChannel: function messageChannel(data) {
+      this.data = data;
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$socket.on('chat-message', function (data) {
+      console.log(data);
+
+      _this.dataMessage.push(data);
+    });
   },
   methods: {
     sendMessage: function sendMessage() {
-      var _this = this;
+      var _this2 = this;
 
-      console.log(this.message);
       axios({
         method: "get",
         url: 'start/chat',
@@ -2185,8 +2201,17 @@ __webpack_require__.r(__webpack_exports__);
           message: this.message
         }
       }).then(function (response) {
-        console.log(response);
-        _this.message = "";
+        console.log(response.data);
+        /*this.dataMessage.push(response.data);*/
+
+        _this2.$socket.emit('chat-message', response.data);
+        /*this.$socket.emit('chat-message',(data)=>{
+            console.log(data)
+            this.dataMessage=data.result;
+        });*/
+
+
+        _this2.message = "";
       });
     }
   }
@@ -89674,7 +89699,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Enter placeholder" },
+            attrs: { type: "text", placeholder: "Enter message" },
             domProps: { value: _vm.message },
             on: {
               input: function($event) {

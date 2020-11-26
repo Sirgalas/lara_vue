@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string $label
  * @property int $sale
  * @property boolean $realtime
+ * @property array $datasets
  */
 class SocketChartRequest extends FormRequest
 {
@@ -33,8 +34,10 @@ class SocketChartRequest extends FormRequest
     public function rules()
     {
         return [
-            'label'=> 'string|max:250',
+            'label'=> 'string',
             'sale'=>'integer',
+            'realtime'=>'string',
+            'datasets'=>'array'
         ];
     }
 
