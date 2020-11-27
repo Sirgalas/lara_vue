@@ -2173,8 +2173,7 @@ __webpack_require__.r(__webpack_exports__);
     disconnect: function disconnect() {
       this.isConnected = false;
     },
-    'chat-message': function chatMessage(data) {
-      console.log(data);
+    'chat-message:App\\Events\\Message': function chatMessageAppEventsMessage(data) {
       this.dataMessage.push(data.message);
     },
     messageChannel: function messageChannel(data) {
@@ -2184,9 +2183,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    this.$socket.on('chat-message', function (data) {
-      console.log(data);
-
+    this.$socket.on('chat-message:App\\Events\\Message', function (data) {
       _this.dataMessage.push(data);
     });
   },
@@ -2201,15 +2198,7 @@ __webpack_require__.r(__webpack_exports__);
           message: this.message
         }
       }).then(function (response) {
-        console.log(response.data);
-        /*this.dataMessage.push(response.data);*/
-
-        _this2.$socket.emit('chat-message', response.data);
-        /*this.$socket.emit('chat-message',(data)=>{
-            console.log(data)
-            this.dataMessage=data.result;
-        });*/
-
+        _this2.$socket.emit('chat-message:App\\Events\\Message', response.data);
 
         _this2.message = "";
       });
@@ -102346,6 +102335,7 @@ window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/d
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 window.VueSocketIO = __webpack_require__(/*! vue-socket.io */ "./node_modules/vue-socket.io/dist/vue-socketio.js");
 window.SocketInstance = io('http://localhost:8205');
+window.socket = io('http://localhost:8205');
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

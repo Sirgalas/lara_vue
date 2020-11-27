@@ -29,12 +29,10 @@
             connect() {
                 this.isConnected = true;
             },
-
             disconnect() {
                 this.isConnected = false;
             },
-            'chat-message'(data){
-                console.log(data)
+            'chat-message:App\\Events\\Message'(data){
                 this.dataMessage.push(data.message)
             },
             messageChannel(data) {
@@ -42,8 +40,7 @@
             }
         },
         mounted() {
-            this.$socket.on('chat-message',(data)=>{
-                console.log(data)
+            this.$socket.on('chat-message:App\\Events\\Message',(data)=>{
                 this.dataMessage.push(data);
             });
         },
@@ -56,13 +53,8 @@
                         message:this.message
                     }
                 }).then((response)=>{
-                    console.log(response.data);
-                    /*this.dataMessage.push(response.data);*/
-                    this.$socket.emit('chat-message',response.data);
-                    /*this.$socket.emit('chat-message',(data)=>{
-                        console.log(data)
-                        this.dataMessage=data.result;
-                    });*/
+                    this.$socket.emit('chat-message:App\\Events\\Message',response.data);
+
                     this.message="";
                 });
             }

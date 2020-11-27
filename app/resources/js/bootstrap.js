@@ -3,6 +3,7 @@ window.Popper= require('popper.js').default;
 window.io=require('socket.io-client');
 window.VueSocketIO= require('vue-socket.io');
 window.SocketInstance = io('http://localhost:8205');
+window.socket = io('http://localhost:8205');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
